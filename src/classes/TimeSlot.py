@@ -1,0 +1,4 @@
+class TimeSlot:
+
+    # TODO
+    pass
