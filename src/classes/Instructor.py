@@ -1,6 +1,5 @@
-from src.classes.UniversityAffiliatedPerson import UniversityAffiliatedPerson
 
 
-class Instructor(UniversityAffiliatedPerson):
+class Instructor():
     # TODO
     pass

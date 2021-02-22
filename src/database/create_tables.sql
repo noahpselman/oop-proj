@@ -32,7 +32,7 @@ CREATE TABLE timeslot (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE university_affiliated_person (
+CREATE TABLE user (
     university_id serial,
     name varchar(100) NOT NULL,
     email varchar(100) NOT NULL,

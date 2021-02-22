@@ -6,9 +6,9 @@ class Course():
     Abstract Class
     """
 
-    def __init__(self) -> None:
-        self._course_id: str = "12345"
-        self._dept: str = "MATH"
+    def __init__(self, course_id: str, dept: str, course_name: str) -> None:
+        self._course_id: str = course_id
+        self._dept: str = dept
         # print(self.__form_course_name())
         self._course_name: str = self.__form_course_name()
         self._prereqs: List[str] = []
@@ -36,11 +36,14 @@ class Course():
     def prereqs(self) -> List[str]:
         return self._prereqs
 
-    def add_prereq(self, new_prereq: str) -> None:
-        self.prereqs.append(new_prereq)
+    @property
+    def prereqs(self):
+        return self._prereqs
 
-    def remove_prereq(self, to_remove: str) -> None:
-        self.prereqs.remove(to_remove)
+    def add_prereq(self, new_prereq: str) -> None:
+        prereqs = self.prereqs
+        prereqs.append(new_prereq)
+        self.prereqs = prereqs
 
     @property
     def course_name(self):

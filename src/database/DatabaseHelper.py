@@ -8,7 +8,9 @@ from src.database.Database import Database
 
 
 LOAD_STUDENT_COLUMNS = ("university_id", "expected_graduation",
-                        "major", "fulltime", "maximum_enrollment", "name", "email")
+                        "major", "fulltime", "maximum_enrollment")
+
+LOAD_USER_COLUMNS = ("university_id", "name", "email")
 
 
 class DatabaseHelper():
@@ -33,17 +35,35 @@ class DatabaseHelper():
         if not self.db.conn:
             raise Exception("Database doesn't have connection")
 
+    def unpack_db_result(self, columns: tuple, result):
+        """
+        creates dictionary from db results
+        columns: tuple containing names of columns
+        result: result of fetch_one from db class
+        """
+        # return {col: result[col] for col in columns}
+        result_dict = {}
+        for col in columns:
+            result_dict[col] = result[col]
+        return result_dict
+
+    def load_user_by_id(self, university_id: str):
+        result = self.db.load_user_by_id(university_id)
+        return self.unpack_db_result(LOAD_USER_COLUMNS, result)
+
     def load_student_by_id(self, university_id: str) -> dict:
         """
         queries db and formats result into dict with
         table colnames as keys and values as values
         """
-        result_dict = {}
+        # result_dict = {}
+        print("db-helper loading student")
         result = self.db.load_student_by_id(university_id)
-        for col in LOAD_STUDENT_COLUMNS:
-            result_dict[col] = result[col]
+        return self.unpack_db_result(LOAD_STUDENT_COLUMNS, result)
+        # for col in LOAD_STUDENT_COLUMNS:
+        #     result_dict[col] = result[col]
         # print("result_dict from dbhelper", result_dict)
-        return result_dict
+        # return result_dict
 
     def load_student_restrictions(self, univeristy_id: str) -> List[str]:
         result_list = []

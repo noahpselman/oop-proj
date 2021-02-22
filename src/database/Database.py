@@ -28,17 +28,29 @@ class Database:
     def conn(self, new_conn):
         self._conn = new_conn
 
+    def load_user_by_id(self, university_id):
+        query = """
+        SELECT university_id, name, email
+        FROM university_affiliated_person
+        WHERE university_id = %s
+        """
+        return self.fetch_one(query, (university_id,))
+
     def load_student_by_id(self, university_id):
         query = """
-        SELECT  s.*, u.name, u.email
-        FROM student s
-        JOIN university_affiliated_person u
-        ON s.university_id = u.university_id
-        WHERE s.university_id = %s
+        SELECT  *
+        FROM student
+        WHERE university_id = %s
 
         """
+        return self.fetch_one(query, (university_id,))
+        # cur = self.conn.cursor()
+        # cur.execute(query, (university_id,))
+        # return cur.fetchone()
+
+    def fetch_one(self, query, args):
         cur = self.conn.cursor()
-        cur.execute(query, (university_id,))
+        cur.execute(query, args)
         return cur.fetchone()
 
     def load_student_restrictions(self, university_id):
